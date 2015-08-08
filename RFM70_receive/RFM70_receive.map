@@ -1,0 +1,508 @@
+Archive member included because of file (symbol)
+
+E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+                              main.o (RFM73_Initialize)
+E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+                              E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o) (SPI_Init)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+                              c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o (exit)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+                              main.o (__do_copy_data)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+                              main.o (__do_clear_bss)
+
+Allocating common symbols
+Common symbol       size              file
+
+flag_1s             0x1               main.o
+rx_buf              0x20              main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00002000         xr
+data             0x00800060         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+fuse             0x00820000         0x00000400         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+LOAD main.o
+LOAD E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a
+Address of section .text set to 0x0
+Address of section .bootloader set to 0x3c00
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4\libc.a
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000      0x572
+ *(.vectors)
+ .vectors       0x00000000       0x26 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+ *(.progmem*)
+                0x00000026                . = ALIGN (0x2)
+                0x00000026                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00000026        0x0 linker stubs
+ *(.trampolines*)
+                0x00000026                __trampolines_end = .
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00000026                __ctors_start = .
+ *(.ctors)
+                0x00000026                __ctors_end = .
+                0x00000026                __dtors_start = .
+ *(.dtors)
+                0x00000026                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x00000026        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+                0x00000026                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000026        0xc c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x00000032       0x16 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+                0x00000032                __do_copy_data
+ .init4         0x00000048       0x10 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+                0x00000048                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000058        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+ *(.init9)
+ *(.text)
+ .text          0x0000005c        0x2 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+                0x0000005c                __vector_1
+                0x0000005c                __vector_12
+                0x0000005c                __bad_interrupt
+                0x0000005c                __vector_6
+                0x0000005c                __vector_3
+                0x0000005c                __vector_11
+                0x0000005c                __vector_13
+                0x0000005c                __vector_17
+                0x0000005c                __vector_7
+                0x0000005c                __vector_5
+                0x0000005c                __vector_4
+                0x0000005c                __vector_15
+                0x0000005c                __vector_8
+                0x0000005c                __vector_14
+                0x0000005c                __vector_10
+                0x0000005c                __vector_16
+                0x0000005c                __vector_18
+ .text          0x0000005e       0xd8 main.o
+                0x0000009a                power_on_delay
+                0x000000b4                Receive_Packet
+                0x00000108                main
+                0x0000005e                timer0_init
+                0x0000006a                __vector_9
+ .text          0x00000136      0x3d2 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+                0x0000023a                RFM73_Send_Packet
+                0x000001c0                SwitchCFG
+                0x00000136                SPI_Read_Reg
+                0x000001b8                SetChannelNum
+                0x000004bc                RFM73_Receive_Packet
+                0x0000021a                SPI_Write_Buf
+                0x00000270                RFM73_Initialize
+                0x00000154                __vector_2
+                0x0000049c                SPI_Read_Buf
+                0x000001f8                SwitchToRxMode
+                0x00000142                SPI_Write_Reg
+                0x000001e0                SwitchToTxMode
+ .text          0x00000508       0x66 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+                0x00000538                SPI_TxBuf
+                0x0000052e                SPI_TxRx
+                0x00000554                SPI_RxBuf
+                0x00000508                SPI_Init
+ .text          0x0000056e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .text          0x0000056e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+ .text          0x0000056e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+                0x0000056e                . = ALIGN (0x2)
+ *(.text.*)
+ .text.libgcc   0x0000056e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .text.libgcc   0x0000056e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000056e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+                0x0000056e                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x0000056e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+                0x0000056e                exit
+                0x0000056e                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x0000056e        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ *(.fini0)
+                0x00000572                _etext = .
+
+.data           0x00800060       0x8c load address 0x00000572
+                0x00800060                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+ .data          0x00800060       0x11 main.o
+                0x00800060                tx_buf
+ .data          0x00800071       0x7b E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+                0x008000a9                Bank1_Reg14
+                0x008000e2                RX0_Address
+                0x00800071                Bank1_Reg0_13
+                0x008000b4                Bank0_Reg
+                0x008000e7                RX1_Address
+ .data          0x008000ec        0x0 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+ .data          0x008000ec        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .data          0x008000ec        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+ .data          0x008000ec        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+ *(.data*)
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.d*)
+                0x008000ec                . = ALIGN (0x2)
+                0x008000ec                _edata = .
+                0x008000ec                PROVIDE (__data_end, .)
+
+.bss            0x008000ec       0x24
+                0x008000ec                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x008000ec        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+ .bss           0x008000ec        0x1 main.o
+ .bss           0x008000ed        0x2 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+ .bss           0x008000ef        0x0 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+ .bss           0x008000ef        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .bss           0x008000ef        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+ .bss           0x008000ef        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x008000ef       0x21 main.o
+                0x008000ef                flag_1s
+                0x008000f0                rx_buf
+                0x00800110                PROVIDE (__bss_end, .)
+                0x00000572                __data_load_start = LOADADDR (.data)
+                0x000005fe                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00800110        0x0
+                0x00800110                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x00800110                PROVIDE (__noinit_end, .)
+                0x00800110                _end = .
+                0x00800110                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000       0x60
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 main.o
+ .debug_aranges
+                0x00000020       0x20 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+ .debug_aranges
+                0x00000040       0x20 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+
+.debug_pubnames
+                0x00000000      0x20b
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000       0x82 main.o
+ .debug_pubnames
+                0x00000082      0x141 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+ .debug_pubnames
+                0x000001c3       0x48 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+
+.debug_info     0x00000000      0xaa7
+ *(.debug_info)
+ .debug_info    0x00000000      0x2fe main.o
+ .debug_info    0x000002fe      0x5b6 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+ .debug_info    0x000008b4      0x1f3 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev   0x00000000      0x4e6
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x1ab main.o
+ .debug_abbrev  0x000001ab      0x22d E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+ .debug_abbrev  0x000003d8      0x10e E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+
+.debug_line     0x00000000      0x883
+ *(.debug_line)
+ .debug_line    0x00000000      0x21c main.o
+ .debug_line    0x0000021c      0x4fa E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+ .debug_line    0x00000716      0x16d E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+
+.debug_frame    0x00000000      0x180
+ *(.debug_frame)
+ .debug_frame   0x00000000       0x60 main.o
+ .debug_frame   0x00000060       0xd0 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+ .debug_frame   0x00000130       0x50 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+
+.debug_str      0x00000000      0x362
+ *(.debug_str)
+ .debug_str     0x00000000      0x10a main.o
+                                0x158 (size before relaxing)
+ .debug_str     0x0000010a      0x20f E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+                                0x2d8 (size before relaxing)
+ .debug_str     0x00000319       0x49 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+                                0x1a5 (size before relaxing)
+
+.debug_loc      0x00000000      0x385
+ *(.debug_loc)
+ .debug_loc     0x00000000       0x30 main.o
+ .debug_loc     0x00000030      0x2df E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+ .debug_loc     0x0000030f       0x76 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(RFM70_receive.elf elf32-avr)
+LOAD linker stubs
+
+.bootloader     0x00003c00        0x0
+
+.debug_ranges   0x00000000       0x18
+ .debug_ranges  0x00000000       0x18 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+
+Cross Reference Table
+
+Symbol                                            File
+Bank0_Reg                                         E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+Bank1_Reg0_13                                     E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+Bank1_Reg14                                       E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+RFM73_Initialize                                  E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+                                                  main.o
+RFM73_Receive_Packet                              E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+                                                  main.o
+RFM73_Send_Packet                                 E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+RX0_Address                                       E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+RX1_Address                                       E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+Receive_Packet                                    main.o
+SPI_Init                                          E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+                                                  E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SPI_Read_Buf                                      E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SPI_Read_Reg                                      E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SPI_RxBuf                                         E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+                                                  E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SPI_TxBuf                                         E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+                                                  E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SPI_TxRx                                          E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(spi.o)
+                                                  E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SPI_Write_Buf                                     E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SPI_Write_Reg                                     E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SetChannelNum                                     E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SwitchCFG                                         E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SwitchToRxMode                                    E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+SwitchToTxMode                                    E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+__bad_interrupt                                   c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__bss_end                                         c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+__bss_start                                       c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+__data_end                                        c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+__data_load_start                                 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+__data_start                                      c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+__do_clear_bss                                    c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+                                                  E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+                                                  main.o
+__do_copy_data                                    c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+                                                  E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+                                                  main.o
+__heap_end                                        c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__init                                            c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__stack                                           c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_1                                        c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_10                                       c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_11                                       c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_12                                       c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_13                                       c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_14                                       c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_15                                       c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_16                                       c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_17                                       c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_18                                       c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_2                                        E:/Source/AVR/Projects/RFM70/RFM70_lib\libRFM70.a(RFM73_lib.o)
+                                                  c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_3                                        c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_4                                        c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_5                                        c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_6                                        c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_7                                        c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_8                                        c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_9                                        main.o
+                                                  c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vector_default                                  c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+__vectors                                         c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+_exit                                             c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+exit                                              c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+                                                  c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+flag_1s                                           main.o
+main                                              main.o
+                                                  c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+power_on_delay                                    main.o
+rx_buf                                            main.o
+timer0_init                                       main.o
+tx_buf                                            main.o
