@@ -8,8 +8,7 @@
  
  #include <stdint.h>
  
-/* Definitions */
-
+/* SPI Chip select pin */
 #define 	SS_DDR		DDRB
 #define 	SS_PORT		PORTB
 #define 	SS_PIN		2		

@@ -9,9 +9,9 @@
 
 static void mcu_init(void);
 
-
 static volatile bool tx_done;
 static volatile bool rx_ready;
+static volatile bool max_retries;
 
 
 //Bank1 register initialization value
@@ -45,9 +45,9 @@ const UINT8 Bank0_Reg[][2]={
 {1,0x3F},//Enable auto acknowledgement data pipe5\4\3\2\1\0
 {2,0x3F},//Enable RX Addresses pipe5\4\3\2\1\0
 {3,0x03},//RX/TX address field width 5byte
-{4,0xff},//auto retransmission dalay (4000us),auto retransmission count(15)
-{5,0x17},//23 channel
-{6,0x07},//air data rate-1M,out power 0dbm,setup LNA gain \bit4 must set up to 0
+{4,0x15},//auto retransmission dalay (500us),auto retransmission count(5)
+{5,0x28},//23 channel
+{6,0x07},//air data rate-1Mbps,out power 5dbm,setup LNA gain \bit4 must set up to 0
 {7,0x07},//
 {8,0x00},//
 {9,0x00},
@@ -67,7 +67,8 @@ const UINT8 Bank0_Reg[][2]={
 };
 
 
-const UINT8 RX0_Address[]={0x34,0x43,0x10,0x10,0x01};//Receive address data pipe 0
+//const UINT8 RX0_Address[]={0x34,0x43,0x10,0x10,0x01};//Receive address data pipe 0
+const UINT8 RX0_Address[]={0x11,0x22,0x33,0x44,0x55};//Receive address data pipe 0
 const UINT8 RX1_Address[]={0x39,0x38,0x37,0x36,0xc2};////Receive address data pipe 1
 
 
@@ -178,12 +179,15 @@ static void mcu_init(void)
 	CE_OUT();
 	SPI_Init(SPI_MODE0, SPI_CLKDIV_4);
 	
+#if !RFM70_POLLED_MODE
 	/* configure INT1 as LOW-level triggered */
 	MCUCR &= ~(1 << ISC11);
 	MCUCR &= ~(1 << ISC10);
 	
-	/* Enable INT1 interrupt for IRQ */
+	/* Enable INT1 interrupt for RFM70 IRQ */
 	GICR |= (1 << INT1);
+#endif
+
 }
 
 /**************************************************         
@@ -347,6 +351,8 @@ void SwitchToTxMode()
   	SPI_Write_Reg(WRITE_REG|CONFIG, value); // Set PWR_UP bit, enable CRC(2 length) & Prim:RX. RX_DR enabled.
 	
 	CE_HIGH();
+	
+	_delay_ms(2); // Power-up delay 1.5 ms
 }
 
 
@@ -354,7 +360,6 @@ void SwitchToPowerDownMode(void)
 {
 	UINT8 value;
 	
-	CE_LOW();
 	value=SPI_Read_Reg(CONFIG);
 	value &= ~(1 << 1); // Clear PWR_UP bit
 	SPI_Write_Reg(WRITE_REG|CONFIG, value); 
@@ -400,13 +405,14 @@ Parameter:
 Return:
 	None
 **************************************************/
-void RFM73_Send_Packet(UINT8 type,UINT8* pbuf,UINT8 len)
+uint8_t RFM73_Send_Packet(UINT8 type,UINT8* pbuf,UINT8 len)
 {
 	UINT8 fifo_sta;
+	uint8_t ret = 0;
 	
 	SwitchToTxMode();  //switch to tx mode
 	
-	_delay_ms(1); // TX settling?
+	CE_HIGH();
 	
 	fifo_sta=SPI_Read_Reg(FIFO_STATUS);	// read register FIFO_STATUS's value
 	if((fifo_sta&FIFO_STATUS_TX_FULL)==0)//if not full, send data (write buff)
@@ -414,11 +420,22 @@ void RFM73_Send_Packet(UINT8 type,UINT8* pbuf,UINT8 len)
 		SPI_Write_Buf(type, pbuf, len); // Writes data to buffer
 	}
 	
+	CE_LOW();
 	
-	while(tx_done == false)
-			;
-		
-	tx_done = false;
+	do {
+		if(tx_done == true) {
+			tx_done = false;
+			ret = 0;
+			break;
+		}
+		if (max_retries == true) {
+			max_retries = false;
+			ret = 1;
+			break;
+		}
+	} while(1);
+
+	return ret;
 }
 
 
@@ -435,8 +452,21 @@ Return:
 void RFM73_Receive_Packet(UINT8* pbuf,UINT8* length)
 {
 	UINT8 len, fifo_sta;
-
+#if RFM70_POLLED_MODE
+	UINT8 status;
+#endif
+	
 	/* Wait for RX_DR */
+#if RFM70_POLLED_MODE
+	/* Check for Rx packet ready in STATUS reg */
+	status = SPI_Read_Reg(STATUS);
+	rx_ready = (status & STATUS_RX_DR) ? true : false;
+	if(rx_ready) {
+		/* Clear flag */
+		SPI_Write_Reg(WRITE_REG|STATUS, status);
+	}
+#endif
+	
 	if(rx_ready == true)
 	{
 		rx_ready = false;
@@ -460,6 +490,9 @@ void RFM73_Receive_Packet(UINT8* pbuf,UINT8* length)
 							
 		} while((fifo_sta&FIFO_STATUS_RX_EMPTY)==0); //while not empty
 	}
+	else {
+		*length = 0;
+	}
 	
 }
 
@@ -474,6 +507,7 @@ Parameter:
 Return:
 	None
 **************************************************/
+#if !RFM70_POLLED_MODE
 ISR(INT1_vect)
 {
 	uint8_t status;
@@ -492,6 +526,13 @@ ISR(INT1_vect)
 		tx_done = true;
 	}
 	
+	if(status & STATUS_MAX_RT)
+	{
+		/* Maxtimum reties exceeded */
+		max_retries = true;
+	}
+	
 	/* Clear interrupt flags */
 	SPI_Write_Reg(WRITE_REG|STATUS, status);
 }
+#endif

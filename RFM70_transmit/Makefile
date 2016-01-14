@@ -6,21 +6,21 @@ MCU = atmega8
 F_CPU = 8000000
 FORMAT = ihex
 TARGET = RFM70_transmit
-SRC = main.c
+RFM70_DIR = ../RFM70_lib
+SRC = main.c $(RFM70_DIR)/RFM73_lib.c $(RFM70_DIR)/spi.c
 OPT = s
 
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-CINCS = -IE:/Source/AVR/Projects/RFM70/RFM70_lib
+CINCS = -I$(RFM70_DIR) -I.
 
 # List any extra directories to look for libraries here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRALIBDIRS = E:/Source/AVR/Projects/RFM70/RFM70_lib
-
+EXTRALIBDIRS = $(RFM70_DIR)
 
 CSTANDARD = -std=gnu99
 CDEFS = -DF_CPU=$(F_CPU)UL
@@ -33,7 +33,7 @@ ALL_CFLAGS = -mmcu=$(MCU) $(CDEBUG) $(CINCS) $(CDEFS) -O$(OPT) $(CWARN) $(CSTAND
 
 LDFLAGS =  -Wl,-Map=$(TARGET).map,--cref
 LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
-LDFLAGS += -lRFM70
+#LDFLAGS += -lRFM70
 LDFLAGS += -Wl,--section-start=.text=0x0000
 #new section: bootloader - starting at byte address 0x3C00 
 #note that datasheet gives word address (here, 0x1E00) for different bootloader sections)

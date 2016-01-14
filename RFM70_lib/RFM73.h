@@ -13,21 +13,24 @@ Data:				2012-11-10
 **********************************************************/
 /*--------------------------------------------------------------------------------------
 *This file is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-*****************
-*MCU: PIC16f690
-Compiler:MPLAB8.10
-*****************
 * website: http://www.hoperf.com
 ---------------------------------------------------------------------------------------*/
 
 
 /**********************************************************
- MODIFIED FOR AVR ATMEGA8 based application
- 
+ MODIFIED FOR AVR ATMEGA8 based hardware 
+ **********************************************************
 	Major Hardware Changes:
 		1. On-chip SPI interface is used instead of bit-banged SPI
-		2. Interrupt is used instread of polling IRQ from RFM70 (software still needs to support this) 
-		
+		2. IRQ interrupt from RFM70 is used - If AVR sleep mode is used, this will reduce power consumption when used in Rx mode. 
+			The software can chose Interrupt or Polled mode. In case of polled mode, RFM70 IRQ pin can be left unconnected
+			If interrupt mode is used, INT1 pin of AVR should be connected to RFM70 IRQ.
+	
+ **********************************************************
+ HARDWARE CONNECTIONS	
+ ***********************************************************
+	An example of connection is shown below: 
+
 	RFM70		ATmega8
 	-------------------
 	SCK			SCK(PB5)
@@ -36,23 +39,23 @@ Compiler:MPLAB8.10
 	CSN			SS#(PB2)
 	CE			PB1
 	IRQ			INT1(PD3)
-	VCC			VCC:3v3
+	VCC			VCC(3.3V)
 	GND			GND
+	
+	4 pins of SPI interface (SCK,MISO,MOSI,CSN) and IRQ pin(if interrupt mode is used) should not be changed
+	Only CE pin can be changed. This pin is configured in rfm70_config.h
+	
+******************************************************************************/
 
-*********************************************************/
+#ifndef _RFM70_H_
+#define _RFM70_H_
 
-#ifndef _RFM73_H_
-#define _RFM73_H_
-
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
+//#include <stdio.h>
+//#include <stdarg.h>
+//#include <string.h>
 #include <stdbool.h>
 
-
-#define TRUE 1
-#define FALSE 0
-
+#include "rfm70_config.h"
 
 #define INT8 char
 #define INT16 int
@@ -60,26 +63,11 @@ Compiler:MPLAB8.10
 #define UINT16 unsigned int
 #define UINT32 unsigned long
 
-/******** I/O PIN DEFINITIONS FOR ATMEGA8 *********/
-
-#define CE_DDR		DDRB
-#define CE_PORT		PORTB
-#define CE_PIN   	1
-
-#define CSN_DDR		DDRB
-#define CSN_PORT	PORTB
-#define CSN_PIN  	2
-
-#define IRQ_DDR		DDRD
-#define IRQ_PORT	PORTD
-#define IRQ_PIN		3
-
 #define CE_OUT()	(CE_DDR |= (1 << CE_PIN))
 #define CE_LOW()	(CE_PORT &= ~(1 << CE_PIN))
 #define CE_HIGH()	(CE_PORT |= (1 << CE_PIN))
 
-
-#define MAX_PACKET_LEN  32// max value is 32
+#define MAX_PACKET_LEN  32 // max value is 32
 
 
 //************************FSK COMMAND and REGISTER****************************************//
@@ -154,7 +142,7 @@ void SwitchToRxMode(void);
 void SwitchToPowerDownMode(void);
 
 void RFM73_Initialize(void);
-void RFM73_Send_Packet(UINT8 type,UINT8* pbuf,UINT8 len);
+uint8_t RFM73_Send_Packet(UINT8 type,UINT8* pbuf,UINT8 len);
 void RFM73_Receive_Packet(UINT8* pbuf,UINT8* length);
 
 

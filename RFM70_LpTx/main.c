@@ -1,10 +1,29 @@
-#include "spi.h"
-#include "RFM73.h"
+/*
+ *  RFM73 Tx example showing Low power usage
+ *	
+ * 		A sample packet is transmitted every 2 sec. When Transmission completes, AVR ATmega8 MCU goes to
+ *		power-save mode, after setting RFM73 to power down mode. AVR wakes up every second, by overflow 
+ *		interrupt of TIMER2 which runs in asynchronous mode by external 32.768kHz crystal.
+ *		
+ *		Auto-Acknowledgement feature is enabled in the transmitted packet. This means, the transmitting RFM73
+ *		waits for acknowledgement from the receiver. If no acknowledgement is received, packet is retransmitted.
+ * 		This is repeated for a number of timers (5 times in this case), until acknowledgement is received.
+ *
+ *		Low power state:
+			RFM73	: 3 uA
+			AVR		: 10 uA
+		Active state:
+			RFM73	: 17 mA (TX at 0dB)
+			AVR		: 6 mA
+ */
+
+
 #include <stdbool.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <avr/sleep.h>
+#include "RFM73.h"
 
 #define RED_LED					PB0
 #define RED_LED_DDR				DDRB
@@ -17,17 +36,16 @@
 
 
 void timer2_async_init(void);
-void power_on_delay(void);
-void sub_program_1hz(void);
 
-volatile bool flag_2s;
+volatile bool flag_2s = true;
 UINT8 tx_buf[17]={0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f,0x78};
-UINT8 rx_buf[MAX_PACKET_LEN];
 
 
 int main(void)
 {
-	power_on_delay();  
+	uint8_t result, count = 0, i;
+	
+	//_delay_ms(1000); // power_on_delay  
 	timer2_async_init();
 	RFM73_Initialize();
 	RED_LED_OUT();
@@ -43,11 +61,26 @@ int main(void)
 		if(flag_2s == true)
 		{
 			flag_2s = false;
-			
+			count++;
+			tx_buf[0] = count;
+			tx_buf[16] = 0;
+			for(i = 0; i < 16; i++) {
+				tx_buf[16] += tx_buf[i];
+			}
 			RED_LED_ON();
-			RFM73_Send_Packet(W_TX_PAYLOAD_NOACK_CMD,tx_buf,17);
+			//RFM73_Send_Packet(W_TX_PAYLOAD_NOACK_CMD,tx_buf,17);
+			result = RFM73_Send_Packet(WR_TX_PLOAD,tx_buf,17);  // with ACK enabled
 			SwitchToPowerDownMode(); // set RFM73 to power down mode
-			_delay_ms(50);
+			if(result == 0) {
+				_delay_ms(50);
+			}
+			else {  // ack not received
+				_delay_ms(20);
+				RED_LED_OFF();
+				_delay_ms(100);
+				RED_LED_ON();
+				_delay_ms(20);
+			}
 			RED_LED_OFF();
 		}
 		
@@ -75,7 +108,7 @@ void timer2_async_init(void)
 
 
 /*********************************************************
-Function: Timer0 ISR                                      
+Function: Timer2 ISR                                      
                                                             
 Description:                                                
  
@@ -90,22 +123,9 @@ ISR(TIMER2_OVF_vect)
 }
 
 
-/*********************************************************
-Function:      power_on_delay()                                    
-                                                            
-Description:                                                
- 
-*********************************************************/
-void power_on_delay(void)
-{
-	unsigned int i;
-	for(i = 0; i<1000; i++)
-	{
-		_delay_ms(1);
-	}
-}
 
 
 
 
 
+	

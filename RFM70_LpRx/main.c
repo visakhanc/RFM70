@@ -1,10 +1,17 @@
-#include "spi.h"
-#include "RFM73.h"
+/*
+ *  RFM73 Rx example
+ *	
+ * 		RFM73 is configured in Rx mode.  When a packet is received by RFM73, AVR MCU reads it
+ *		and inspects the packet. If is proper, blinks an LED. Aftern this, AVR goes to power down mode, 
+ *		only to be waoken up by external IRQ, which happens when a packet arrives.
+ */
+
 #include <stdbool.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <avr/sleep.h>
+#include "RFM73.h"
 
 #define RED_LED					PB0
 #define RED_LED_DDR				DDRB
@@ -16,17 +23,15 @@
 #define RED_LED_TOGGLE()		(RED_LED_PORT ^= (1 << RED_LED))
 
 
-void power_on_delay(void);
+
 void Receive_Packet(void);
 
-volatile bool flag_1s;
-const UINT8 tx_buf[17]={0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f,0x78};
 UINT8 rx_buf[MAX_PACKET_LEN];
 
 
 int main(void)
 {	
-	power_on_delay();  
+	_delay_ms(1000); //power_on_delay
 	RFM73_Initialize();
 	RED_LED_OUT();
 	RED_LED_OFF();
@@ -42,21 +47,6 @@ int main(void)
 	}
 }
 
-
-/*********************************************************
-Function:      power_on_delay()                                    
-                                                            
-Description:                                                
- 
-*********************************************************/
-void power_on_delay(void)
-{
-	unsigned int i;
-	for(i = 0; i<1000; i++)
-	{
-		_delay_ms(1);
-	}
-}
 
 
 void Receive_Packet(void)

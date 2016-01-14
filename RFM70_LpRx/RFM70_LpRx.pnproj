@@ -1,1 +1,1 @@
-<Project name="RFM70_LpRx"><File path="main.c"></File><File path="Makefile"></File></Project>
+<Project name="RFM70_LpRx"><File path="main.c"></File><File path="Makefile"></File><File path="rfm70_config.h"></File></Project>

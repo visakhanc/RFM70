@@ -5,6 +5,12 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
+/*
+#define RED_LED					PB0
+#define RED_LED_DDR				DDRB
+#define RED_LED_PORT			PORTB
+*/
+
 #define RED_LED					PB0
 #define RED_LED_DDR				DDRB
 #define RED_LED_PORT			PORTB
@@ -13,7 +19,6 @@
 #define RED_LED_ON()			(RED_LED_PORT |= (1 << RED_LED))
 #define RED_LED_OFF()			(RED_LED_PORT &= ~(1 << RED_LED))
 #define RED_LED_TOGGLE()		(RED_LED_PORT ^= (1 << RED_LED))
-
 
 void timer0_init(void);
 void power_on_delay(void);
@@ -93,6 +98,9 @@ void Receive_Packet(void)
 	UINT8 i, len, chksum = 0; 
 	
 	RFM73_Receive_Packet(rx_buf, &len);
+	if(len == 0) { /* No packet received */
+		return;
+	}
 	
 	for(i=0;i<16;i++)
 	{
