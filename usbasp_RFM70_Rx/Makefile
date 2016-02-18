@@ -6,15 +6,17 @@ MCU = atmega8
 F_CPU = 12000000
 FORMAT = ihex
 TARGET = uasbasp_RFM70_receive
-RFM70_DIR = ../RFM70_lib
-SRC = usbdrv/usbdrv.c usbdrv/usbdrvasm.o $(RFM70_DIR)/RFM73_lib.c $(RFM70_DIR)/spi.c main.c
+COMMON_DIR = ../../common
+RFM70_DIR = $(COMMON_DIR)/RFM70_lib
+SPI_DIR = $(COMMON_DIR)/avr_spi
+SRC = usbdrv/usbdrv.c usbdrv/usbdrvasm.o $(RFM70_DIR)/RFM73_lib.c $(SPI_DIR)/avr_spi.c main.c
 OPT = s
 
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-CINCS = -I$(RFM70_DIR) -Iusbdrv -I.
+CINCS = -I$(RFM70_DIR) -I$(SPI_DIR) -Iusbdrv -I.
 
 # List any extra directories to look for libraries here.
 #     Each directory must be seperated by a space.
@@ -47,9 +49,6 @@ AVRDUDE_PORT = usb
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
-# High and Low fuse settings for AVR
-FUSE_H = 0xd9
-FUSE_L = 0xe4
 
 AVRDUDE_FLAGS = -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER)
 
@@ -93,9 +92,7 @@ size:
 program: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
-fuse:
-	$(AVRDUDE) -U hfuse:w:$(FUSE_H):m -U lfuse:w:$(FUSE_L):m
-	
+
 .SUFFIXES: .elf .hex .eep .lss .sym
 
 .elf.hex:

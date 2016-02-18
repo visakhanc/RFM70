@@ -1,4 +1,4 @@
-#include "spi.h"
+#include "avr_spi.h"
 #include "RFM73.h"
 #include <stdbool.h>
 #include <avr/io.h>

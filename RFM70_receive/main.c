@@ -1,9 +1,9 @@
-#include "spi.h"
-#include "RFM73.h"
+#include "rfm70.h"
 #include <stdbool.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+
 
 /*
 #define RED_LED					PB0
@@ -25,19 +25,19 @@ void power_on_delay(void);
 void Receive_Packet(void);
 
 volatile bool flag_1s;
-const UINT8 tx_buf[17]={0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f,0x78};
-UINT8 rx_buf[MAX_PACKET_LEN];
-
-
+static uint8_t rx_buf[CONFIG_RFM70_STATIC_PL_LENGTH];
+static uint8_t addr[CONFIG_RFM70_ADDR_LEN] = CONFIG_RFM70_ADDRESS;
+static uint8_t ack_pld[4] = {0x45, 0x46, 0x47, 0x48};
 int main(void)
 {	
 	power_on_delay();  
  	timer0_init();
-	RFM73_Initialize();
+	rfm70_init(RFM70_MODE_PRX, addr);
 	RED_LED_OUT();
 	RED_LED_OFF();
 	sei();   // enable interrupts globally
 	
+	rfm70_set_ack_payload(RFM70_PIPE0, ack_pld, sizeof(ack_pld));
 	while(1)
 	{
 		Receive_Packet();
@@ -95,19 +95,22 @@ void power_on_delay(void)
 
 void Receive_Packet(void)
 {
-	UINT8 i, len, chksum = 0; 
+	uint8_t i, len, chksum = 0; 
 	
-	RFM73_Receive_Packet(rx_buf, &len);
+	rfm70_receive_packet(rx_buf, &len);
 	if(len == 0) { /* No packet received */
 		return;
 	}
-	
+		
 	for(i=0;i<16;i++)
 	{
 		chksum +=rx_buf[i]; 
 	}
 	if(chksum==rx_buf[16]&&rx_buf[0]==0x30)
-	{
+	{	
+		/* set ack payload */
+		rfm70_set_ack_payload(RFM70_PIPE0, ack_pld, sizeof(ack_pld));
+		
 		/* Packet received correctly */
 		RED_LED_ON();
 		_delay_ms(50);

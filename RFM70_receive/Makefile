@@ -6,15 +6,17 @@ MCU = atmega8
 F_CPU = 8000000
 FORMAT = ihex
 TARGET = RFM70_receive
-RFM70_DIR = ../RFM70_lib
-SRC = main.c $(RFM70_DIR)/RFM73_lib.c $(RFM70_DIR)/spi.c
+COMMON_DIR = ../../common
+RFM70_DIR = $(COMMON_DIR)/RFM70_lib
+SPI_DIR = $(COMMON_DIR)/avr_spi
+SRC = main.c $(RFM70_DIR)/rfm70_lib.c $(SPI_DIR)/avr_spi.c
 OPT = s
 
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-CINCS = -I$(RFM70_DIR) -I.
+CINCS = -I$(RFM70_DIR) -I$(SPI_DIR) -I.
 
 # List any extra directories to look for libraries here.
 #     Each directory must be seperated by a space.
