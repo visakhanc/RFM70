@@ -3,26 +3,26 @@
 .PHONY:	all build elf hex eep lss sym program coff extcoff clean depend
 
 MCU = atmega8
-F_CPU = 12000000
+F_CPU = 8000000
 FORMAT = ihex
-TARGET = uasbasp_RFM70_receive
+TARGET = RFM70_receive
 COMMON_DIR = ../../common
 RFM70_DIR = $(COMMON_DIR)/RFM70_lib
 SPI_DIR = $(COMMON_DIR)/avr_spi
-SRC = usbdrv/usbdrv.c usbdrv/usbdrvasm.o $(RFM70_DIR)/RFM73_lib.c $(SPI_DIR)/avr_spi.c main.c
+SRC = main.c $(RFM70_DIR)/rfm70_lib.c $(SPI_DIR)/avr_spi.c
 OPT = s
 
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-CINCS = -I$(RFM70_DIR) -I$(SPI_DIR) -Iusbdrv -I.
+CINCS = -I$(RFM70_DIR) -I$(SPI_DIR) -I.
 
 # List any extra directories to look for libraries here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRALIBDIRS =
+EXTRALIBDIRS = $(RFM70_DIR)
 
 
 CSTANDARD = -std=gnu99
@@ -49,6 +49,9 @@ AVRDUDE_PORT = usb
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
+# High and Low fuse settings for AVR
+FUSE_H = 0xd9
+FUSE_L = 0xe4
 
 AVRDUDE_FLAGS = -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER)
 
@@ -88,11 +91,13 @@ lib: $(LIBNAME)
 size: 
 	$(SIZE) --mcu=$(MCU) --format=avr $(TARGET).elf
 
-# Program the device.  $(TARGET).hex $(TARGET).eep
-program: 
+# Program the device.  
+program: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
-
+fuse:
+	$(AVRDUDE) -U hfuse:w:$(FUSE_H):m -U lfuse:w:$(FUSE_L):m
+	
 .SUFFIXES: .elf .hex .eep .lss .sym
 
 .elf.hex:
@@ -123,10 +128,6 @@ $(TARGET).elf: $(OBJ)
 # create object files from C source files.
 .c.o:
 	$(CC) -c $(ALL_CFLAGS) $< -o $@ 
-	
-# create object files from assembler source
-.S.o:
-	$(CC) $(ALL_CFLAGS) -x assembler-with-cpp -c $< -o $@
 
 # Target: clean project.
 clean:

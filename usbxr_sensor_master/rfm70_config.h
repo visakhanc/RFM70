@@ -22,7 +22,7 @@
    Define to 1 if polled mode is used. In this case RFM70 IRQ pin
    is not connected to AVR
 */
-#define CONFIG_RFM70_POLLED_MODE 		1
+#define CONFIG_RFM70_POLLED_MODE 		0
 
 
 /**********************************************/
@@ -52,12 +52,12 @@
 /* Length of the static payload
  * Define this from 0 to 32 (bytes)
  */
-#define CONFIG_RFM70_STATIC_PL_LENGTH		32
-
+#define CONFIG_RFM70_STATIC_PL_LENGTH		8		
+	
 
 /* Whether to enable Payload in the ACK
    If defined to 1, also define ACK payload length */
-#define CONFIG_RFM70_ACK_PL_ENABLED			1
+#define CONFIG_RFM70_ACK_PL_ENABLED			0
 #define CONFIG_RFM70_ACK_PL_LENGTH			4
 
 

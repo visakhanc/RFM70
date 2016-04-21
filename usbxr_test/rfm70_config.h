@@ -33,15 +33,15 @@
   *Note: Length can be 3, 4, 5
   *	  If Automatic ack is enabled and if mode is PTX, this address is used to set RX_P0 address
   */
-#define CONFIG_RFM70_ADDRESS		{0x11, 0x22, 0x33, 0x44, 0x55}
-#define CONFIG_RFM70_ADDR_LEN		5
+#define CONFIG_RFM70_ADDRESS				{0x11, 0x22, 0x33, 0x44, 0x55}
+#define CONFIG_RFM70_ADDR_LEN				5
 
 
 /* Enable or Disable Automatic Retransmit/Acknowledgement feature
  * To enable define to 1, otherwise to 0
  * NOTE: In PTX/PRX, EN_AA=0 for No ack; In PRX/PTX, NO_ACK is checked in the packet
  */
- #define CONFIG_RFM70_AUTOACK_ENABLED 	1
+ #define CONFIG_RFM70_AUTOACK_ENABLED 		1
  
  
 /* Whether to enable or disable dynamic payload width
@@ -68,7 +68,7 @@
  * 	RFM70_PWR_M5DBM : -5dBm
  * 	RFM70_PWR_M10DBM : -10dBm
  */
-#define CONFIG_RFM70_TX_PWR		RFM70_PWR_0DBM
+#define CONFIG_RFM70_TX_PWR					RFM70_PWR_0DBM
 
 
 /* Data rate
@@ -77,15 +77,15 @@
  *		RFM70_RATE_1MBPS
  *		RFM70_RATE_2MBPS
  */
-#define CONFIG_RFM70_DATA_RATE	RFM70_RATE_1MBPS
+#define CONFIG_RFM70_DATA_RATE				RFM70_RATE_1MBPS
 
 
 /* Define RF channel */
-#define CONFIG_RFM70_RF_CHANNEL 	40
+#define CONFIG_RFM70_RF_CHANNEL 			40
 
 
 /* Define how many retransmitts that should be performed */
-#define CONFIG_RFM70_TX_RETRANSMITS		15
+#define CONFIG_RFM70_TX_RETRANSMITS			15
 
 
 /* Auto Retransmission delay (us) */

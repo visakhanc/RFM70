@@ -5,13 +5,13 @@
 #include <util/delay.h>
 
 
-#define RED_LED					PB0
-#define RED_LED_DDR				DDRB
-#define RED_LED_PORT			PORTB
+#define RED_LED					PC1
+#define RED_LED_DDR				DDRC
+#define RED_LED_PORT			PORTC
 
 #define RED_LED_OUT()			(RED_LED_DDR |= (1 << RED_LED))
-#define RED_LED_ON()			(RED_LED_PORT |= (1 << RED_LED))
-#define RED_LED_OFF()			(RED_LED_PORT &= ~(1 << RED_LED))
+#define RED_LED_OFF()			(RED_LED_PORT |= (1 << RED_LED))
+#define RED_LED_ON()			(RED_LED_PORT &= ~(1 << RED_LED))
 #define RED_LED_TOGGLE()		(RED_LED_PORT ^= (1 << RED_LED))
 
 void timer0_init(void);
@@ -26,9 +26,13 @@ int main(void)
 {
 	power_on_delay();  
  	timer0_init();
-	rfm70_init(RFM70_MODE_PRX, addr);
 	RED_LED_OUT();
 	RED_LED_OFF();
+
+	if(rfm70_init(RFM70_MODE_PRX, addr) != 0) {
+		RED_LED_ON();
+	}
+
 	sei();   // enable interrupts globally
 	rfm70_set_ack_payload(RFM70_PIPE0, ack_pld, sizeof(ack_pld));
 	while(1)

@@ -20,6 +20,7 @@ The data is printed on console
 #include <time.h>
 #include <math.h>
 #include <usb.h>    /* this is libusb, see http://libusb.sourceforge.net/ */
+#include <stdint.h>
 
 #include "opendevice.h"
 #include "../usbconfig.h"
@@ -74,12 +75,13 @@ static char *getOptionArg(int *index, int argc, char **argv)
 int main(int argc, char **argv)
 {
 usb_dev_handle      *handle;
-unsigned char       buffer[16], prev;
+unsigned char       buffer[8], prev= 0;
 int 				vid, pid;
 const unsigned char rawVid[2] = {USB_CFG_VENDOR_ID}, rawPid[2] = {USB_CFG_DEVICE_ID};
 char                vendor[] = {USB_CFG_VENDOR_NAME, 0}, product[] = {USB_CFG_DEVICE_NAME, 0};
 int                 i, nBytes;
 int 				error_count = 0, packet_count = 0;
+int 				temp;
 	usb_init();
 	
     for(i=1;i<argc;i++){
@@ -113,34 +115,23 @@ restart:    /* we jump back here if an error occurred */
    
     signalReopenFile(1);    /* open file */
     for(;;){
-        for(;;){    /* read as long as messages are available */
-            nBytes = usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, CMD_READ, 0, 0, (char *)buffer, sizeof(buffer), 5000);
-            if(nBytes < 0){
-                printf("error in USB control transfer: %s\n", usb_strerror());
-                goto usbErrorOccurred;
-            }
-            if(nBytes < 16){
-                printf("data format error, only %d bytes received (16 expected)\n", nBytes);
-            }else{
-				packet_count++;
-                printf("[%d]: ", packet_count);
-				for(i = 0; i < nBytes; i++) {
-					printf("0x%02x  ", buffer[i]);
-				}
-				if((packet_count > 1) && (buffer[0] != (prev + 1)) ) {
-					error_count++;
-					printf("\nERROR: %d", error_count);
-				}
-				prev = buffer[0];
-				printf("\n");
-            }
-			break;
-        }
         /* wait for interrupt, set timeout to more than a week */
         nBytes = usb_interrupt_read(handle, USB_ENDPOINT_IN | 1 , (char *)buffer, sizeof(buffer), 700000 * 1000);
         if(nBytes < 0){
             printf("error in USB interrupt read: %s\n", usb_strerror());
             goto usbErrorOccurred;
+        }
+
+		if(nBytes < sizeof(buffer)) {
+            printf("data format error, only %d bytes received (%d expected)\n", nBytes, sizeof(buffer));
+		} else {
+			packet_count++;
+			temp = (int16_t)((buffer[1] << 8)|buffer[2]);
+			printf("temp = %.3f\n", (float)temp/340.0 + 36.53);
+			if((packet_count > 1) && (buffer[0] != (unsigned char)(prev + 1)) ) {
+				error_count++;
+			}
+			prev = buffer[0];
         }
     }
 usbErrorOccurred:

@@ -1,9 +1,9 @@
-#include "rfm70.h"
 #include <stdbool.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-
+#include "avr_spi.h"
+#include "rfm70.h"
 
 #define RED_LED					PB0
 #define RED_LED_DDR				DDRB
@@ -14,32 +14,33 @@
 #define RED_LED_OFF()			(RED_LED_PORT &= ~(1 << RED_LED))
 #define RED_LED_TOGGLE()		(RED_LED_PORT ^= (1 << RED_LED))
 
+
 void timer0_init(void);
 void power_on_delay(void);
-void Receive_Packet(void);
+void sub_program_1hz(void);
 
 volatile bool flag_1s;
-static uint8_t rx_buf[CONFIG_RFM70_STATIC_PL_LENGTH];
+static uint8_t tx_buf[8];
 static uint8_t addr[CONFIG_RFM70_ADDR_LEN] = CONFIG_RFM70_ADDRESS;
-static uint8_t ack_pld[4] = {0x45, 0x46, 0x47, 0x48};
+
 int main(void)
 {
-	power_on_delay();  
- 	timer0_init();
-	rfm70_init(RFM70_MODE_PRX, addr);
+	power_on_delay();
+	timer0_init();
+	rfm70_init(RFM70_MODE_PTX, addr);
 	RED_LED_OUT();
-	RED_LED_OFF();
+	RED_LED_OFF();	
 	sei();   // enable interrupts globally
-	rfm70_set_ack_payload(RFM70_PIPE0, ack_pld, sizeof(ack_pld));
+	
 	while(1)
 	{
-		Receive_Packet();
+		sub_program_1hz();
 	}
 }
 
 
 /*********************************************************
-Function: timer2_init();                                         
+Function: timer0_init                                       
                                                             
 Description:                                                
 	initialize timer. 
@@ -50,8 +51,9 @@ void timer0_init(void)
 	TIMSK |= (1 << 0); 	/* Enable Interrupt for timer0 overflow */ 
 }
 
+
 /*********************************************************
-Function:  interrupt ISR_timer()                                        
+Function: Timer0 ISR                                        
                                                             
 Description:                                                
  
@@ -61,13 +63,12 @@ ISR(TIMER0_OVF_vect)
  	static uint8_t count = 0;
 	
 	count++;
-	if(count > 30)
+	if(count == 15)
 	{
 		count = 0;
        	flag_1s = true;
 	}
 }
-
 
 
 /*********************************************************
@@ -86,27 +87,38 @@ void power_on_delay(void)
 }
 
 
-void Receive_Packet(void)
+
+/*********************************************************
+Function:  sub_program_1hz()                                        
+                                                            
+Description:                                                
+ 
+*********************************************************/
+void sub_program_1hz(void)
 {
-	uint8_t i, len, chksum = 0; 
-	
-	rfm70_receive_packet(rx_buf, &len);
-	if(len == 0) { /* No packet received */
-		return;
-	}
-		
-	for(i=0;i<16;i++)
+	uint8_t i, len;
+
+	if(flag_1s == true)
 	{
-		chksum +=rx_buf[i]; 
-	}
-	if(chksum==rx_buf[16]&&rx_buf[0]==0x30)
-	{	
-		/* set ack payload */
-		rfm70_set_ack_payload(RFM70_PIPE0, ack_pld, sizeof(ack_pld));
+		flag_1s = false;
 		
-		/* Packet received correctly */
-		RED_LED_ON();
-		_delay_ms(50);
-		RED_LED_OFF();
+		tx_buf[0]++;
+		tx_buf[7] = 0;
+		for(i=0;i<7;i++)
+		{
+			tx_buf[7] += tx_buf[i];
+		}
+		
+		//RED_LED_ON();
+		if(0 == rfm70_transmit_packet(tx_buf,sizeof(tx_buf))) {
+			_delay_ms(5);
+			RED_LED_TOGGLE();
+			_delay_ms(5);
+		}
+		//_delay_ms(5);
+		//RED_LED_OFF();
 	}
 }
+
+
+

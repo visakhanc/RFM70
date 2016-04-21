@@ -52,12 +52,12 @@
 /* Length of the static payload
  * Define this from 0 to 32 (bytes)
  */
-#define CONFIG_RFM70_STATIC_PL_LENGTH		32
+#define CONFIG_RFM70_STATIC_PL_LENGTH		8
 
 
 /* Whether to enable Payload in the ACK
    If defined to 1, also define ACK payload length */
-#define CONFIG_RFM70_ACK_PL_ENABLED			1
+#define CONFIG_RFM70_ACK_PL_ENABLED			0
 #define CONFIG_RFM70_ACK_PL_LENGTH			4
 
 
@@ -68,7 +68,7 @@
  * 	RFM70_PWR_M5DBM : -5dBm
  * 	RFM70_PWR_M10DBM : -10dBm
  */
-#define CONFIG_RFM70_TX_PWR		RFM70_PWR_0DBM
+#define CONFIG_RFM70_TX_PWR		RFM70_PWR_P5DBM
 
 
 /* Data rate

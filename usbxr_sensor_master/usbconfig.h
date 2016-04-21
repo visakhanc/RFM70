@@ -22,15 +22,15 @@ section at the end of this file).
 
 /* ---------------------------- Hardware Config ---------------------------- */
 
-#define USB_CFG_IOPORTNAME      B
+#define USB_CFG_IOPORTNAME      D
 /* This is the port where the USB bus is connected. When you configure it to
  * "B", the registers PORTB, PINB and DDRB will be used.
  */
-#define USB_CFG_DMINUS_BIT      0
+#define USB_CFG_DMINUS_BIT      2
 /* This is the bit number in USB_CFG_IOPORT where the USB D- line is connected.
  * This may be any bit in the port.
  */
-#define USB_CFG_DPLUS_BIT       1
+#define USB_CFG_DPLUS_BIT       4
 /* This is the bit number in USB_CFG_IOPORT where the USB D+ line is connected.
  * This may be any bit in the port. Please note that D+ must also be connected
  * to interrupt pin INT0! [You can also use other interrupts, see section
@@ -106,7 +106,7 @@ section at the end of this file).
  * (e.g. HID), but never want to send any data. This option saves a couple
  * of bytes in flash memory and the transmit buffers in RAM.
  */
-#define USB_CFG_INTR_POLL_INTERVAL      50
+#define USB_CFG_INTR_POLL_INTERVAL      20
 /* If you compile a version with endpoint 1 (interrupt-in), this is the poll
  * interval. The value is in milliseconds and must not be less than 10 ms for
  * low speed devices.

@@ -5,11 +5,11 @@
 MCU = atmega8
 F_CPU = 12000000
 FORMAT = ihex
-TARGET = uasbasp_RFM70_receive
+TARGET = usbxr_sensor_master
 COMMON_DIR = ../../common
 RFM70_DIR = $(COMMON_DIR)/RFM70_lib
 SPI_DIR = $(COMMON_DIR)/avr_spi
-SRC = usbdrv/usbdrv.c usbdrv/usbdrvasm.o $(RFM70_DIR)/RFM73_lib.c $(SPI_DIR)/avr_spi.c main.c
+SRC = usbdrv/usbdrv.c usbdrv/usbdrvasm.o $(RFM70_DIR)/rfm70_lib.c $(SPI_DIR)/avr_spi.c main.c
 OPT = s
 
 # List any extra directories to look for include files here.
