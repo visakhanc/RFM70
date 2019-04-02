@@ -68,7 +68,7 @@
  * 	RFM70_PWR_M5DBM : -5dBm
  * 	RFM70_PWR_M10DBM : -10dBm
  */
-#define CONFIG_RFM70_TX_PWR		RFM70_PWR_0DBM
+#define CONFIG_RFM70_TX_PWR		RFM70_PWR_P5DBM
 
 
 /* Data rate
@@ -77,7 +77,7 @@
  *		RFM70_RATE_1MBPS
  *		RFM70_RATE_2MBPS
  */
-#define CONFIG_RFM70_DATA_RATE	RFM70_RATE_1MBPS
+#define CONFIG_RFM70_DATA_RATE	RFM70_RATE_2MBPS
 
 
 /* Define RF channel */
@@ -88,28 +88,6 @@
 #define CONFIG_RFM70_TX_RETRANSMITS		15
 
 
-/* Auto Retransmission delay (us) */
-#if (CONFIG_RFM70_DATA_RATE == RFM70_RATE_250KBPS)
-	#if (CONFIG_RFM70_ACK_PL_ENABLED) /* ACK with payload */
-		#if (CONFIG_RFM70_ACK_PL_LENGTH < 8)
-		#define CONFIG_RFM70_RETRANS_DELAY 750
-		#elif (CONFIG_RFM70_ACK_PL_LENGTH < 16)
-		#define CONFIG_RFM70_RETRANS_DELAY 1000
-		#elif (CONFIG_RFM70_ACK_PL_LENGTH < 24)
-		#define CONFIG_RFM70_RETRANS_DELAY 1250
-		#else
-		#define CONFIG_RFM70_RETRANS_DELAY 1500
-		#endif
-	#else
-		#define CONFIG_RFM70_RETRANS_DELAY 500  /* Empty ACK */
-	#endif
-#else /* 1Mbps or 2Mbps */
-	#if (CONFIG_RFM70_ACK_PL_ENABLED) /* ACK with payload */
-		#define CONFIG_RFM70_RETRANS_DELAY 500
-	#else /* Empty ACK */
-		#define CONFIG_RFM70_RETRANS_DELAY 250
-	#endif
-#endif
 
 /** 
  * Pipes to enable (EN_RXADDR) - Rx only
